@@ -1,0 +1,8 @@
+[build]
+  command = "pip install -r requirements.txt"
+  output = "."
+  python_version = "3.8"  # Specify the required Python version
+
+[deploy]
+  command = "gunicorn --bind 0.0.0.0:8000 wsgi:app"
+
