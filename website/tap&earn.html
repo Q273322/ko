@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BINDRS - Tap & Earn</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)), url('Assets/tap-earn-background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            text-align: center;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+         /* Enhanced Navbar Styles */
+        .navbar {
+            background: rgba(34, 34, 34, 0.8);
+            padding: 18px 0;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            transition: box-shadow 0.3s;
+        }
+
+        .navbar:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .navbar a {
+            color: #FFD700;
+            text-decoration: none;
+            transition: color 0.3s, transform 0.2s;
+            padding: 10px 15px;
+            border-radius: 7px;
+            font-size: 1.1em;
+        }
+
+        .navbar a:hover {
+            color: #fff;
+            transform: translateY(-2px);
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        /* Improved Container */
+        .container {
+            background: rgba(34, 34, 34, 0.9);
+            border-radius: 18px;
+            box-shadow: 0 10px 40px rgba(255, 215, 0, 0.4); /* Gold shadow */
+            padding: 35px;
+            width: 90%;
+            max-width: 500px;
+            margin: 50px auto;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 45px rgba(255, 215, 0, 0.5); /* Stronger shadow on hover */
+        }
+
+        /* Enhanced Avatar */
+        .avatar {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 7px solid #FFD700;
+            box-shadow: 0 4px 10px rgba(255, 215, 0, 0.4);
+            margin-bottom: 20px;
+        }
+
+        .avatar:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 15px rgba(255, 215, 0, 0.5);
+        }
+
+        /* Earnings Display */
+        .earnings {
+            font-size: 30px;
+            margin-top: 20px;
+            color: #FFD700;
+            font-weight: 600;
+            letter-spacing: 0.8px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Referral Section Styles */
+        .referral {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255, 215, 0, 0.15);
+            border-radius: 12px;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .referral h2 {
+            font-size: 1.6em;
+            color: #FFD700;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .referral p {
+            font-size: 1.1em;
+            line-height: 1.7;
+            color: #eee;
+        }
+
+        /* Enhanced Button Styles */
+        .button {
+            background: #FFD700;
+            border: none;
+            padding: 14px 25px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+            letter-spacing: 0.5px;
+        }
+
+        .button:hover {
+            background: #e6c200;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        .login-register {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255, 215, 0, 0.15);
+            border-radius: 12px;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Balance Information */
+        #totalBalance {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #FFD700;
+            font-weight: 500;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 600px) {
+            .container {
+                width: 95%;
+                padding: 30px;
+            }
+            .avatar {
+                width: 120px;
+                height: 120px;
+            }
+            .earnings {
+                font-size: 24px;
+            }
+        }
+
+        /* Login Section Styles */
+        .login-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255, 215, 0, 0.15);
+            border-radius: 12px;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
+            text-align: left;
+        }
+
+        .login-section h2 {
+            font-size: 1.6em;
+            color: #FFD700;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .login-section label {
+            display: block;
+            margin-bottom: 8px;
+            color: #eee;
+            font-size: 1.1em;
+        }
+
+        .login-section input[type="text"],
+        .login-section input[type="password"] {
+            width: 90%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 7px;
+            border: none;
+            font-size: 1.05em;
+            background: #444;
+            color: #fff;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+        .login-section input[type="text"]:focus,
+        .login-section input[type="password"]:focus {
+            outline: none;
+            box-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+        }
+
+        .login-section button {
+            background: #FFD700;
+            border: none;
+            padding: 14px 25px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+            letter-spacing: 0.5px;
+            width: 100%;
+        }
+
+        .login-section button:hover {
+            background: #e6c200;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.5);
+        }
+        .login-register {
+             margin-top: 30px;
+             padding: 20px;
+             background: rgba(255, 215, 0, 0.15);
+             border-radius: 12px;
+             box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
+         }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="home.html"><i class="fas fa-home"></i> Home</a>
+        <a href="tap&earn.html"><i class="fas fa-gamepad"></i> Tap & Earn</a>
+        <a href="course.html"><i class="fas fa-book"></i> Courses</a>
+        <a href="chart.html"><i class="fas fa-chart-line"></i> Charts</a>
+        <a href="signal.html"><i class="fas fa-signal"></i> Signals</a>
+    </div>
+
+    <div class="container">
+        <h1 style="color: #FFD700;"><i class="fas fa-coins"></i> Tap & Earn</h1>
+        <img src="avatar.png" alt="Avatar" class="avatar" id="avatar" onclick="earnCoins()">
+        <div class="earnings">Earnings: $<span id="earnings">0.000</span></div>
+
+        <div class="referral">
+            <h2><i class="fas fa-user-plus"></i> Referral Program</h2>
+            <p>Invite your friends and earn $2 for each successful referral!</p>
+            <button class="button" id="referralButton" onclick="getReferralLink()"><i class="fas fa-link"></i> Get Referral Link</button>
+            <p id="referralLink" style="display:none; margin-top: 10px;">Your referral link: <span id="link"></span></p>
+        </div>
+
+            <div class="login-register">
+                <h2>Total Balance</h2>
+                <div id="totalBalance" style="margin-top: 10px;">Total Balance: $<span id="balance">0.000</span></div>
+                <button class="button" onclick="withdraw()"><i class="fas fa-money-bill-wave"></i> Withdraw</button>
+            </div>
+           <br> 
+            <a href="index.html" class="button"><i class="fas fa-arrow-left"></i> logout</a>
+
+    </div>
+
+    <script>
+        let earnings = 0.000;
+        let totalBalance = 0.000;
+        let referralCount = 0;
+        const referralLinkBase = "https://bindrs.com/referral?user=";  //Replace this with your site url
+
+        function earnCoins() {
+            earnings += 0.001;
+            document.getElementById('earnings').innerText = earnings.toFixed(3);
+            animateEarnings();
+            const userId = getUserId(); // Function to get the actual user ID
+            saveEarningsToDatabase(userId); // Pass the user ID to the function
+        }
+
+        function getReferralLink() {
+            const userId = generateUniqueId(); // Replace with actual user ID
+            const referralLink = referralLinkBase + userId;
+            document.getElementById('link').innerText = referralLink;
+            document.getElementById('referralLink').style.display = 'block';
+            navigator.clipboard.writeText(referralLink)
+              .then(() => alert("Referral link copied to clipboard!"))
+              .catch(err => console.error("Failed to copy referral link: ", err));
+        }
+
+        function claimReferralBonus() {
+            referralCount += 1;
+            totalBalance += 2.000;
+            totalBalance = parseFloat(totalBalance.toFixed(3)); // Avoid floating-point precision issues
+            updateBalances();
+            alert('Referral bonus claimed! You now have ' + referralCount + ' referrals.');
+        }
+
+        function withdraw() {
+            if (earnings > 0) {
+                totalBalance += earnings;
+                earnings = 0.000;
+                updateBalances();
+                alert('Withdrawal successful! Your total balance is now $' + totalBalance.toFixed(3));
+            } else {
+                alert('No earnings to withdraw!');
+            }
+        }
+
+        function updateBalances() {
+            document.getElementById('earnings').innerText = earnings.toFixed(3);
+            document.getElementById('balance').innerText = totalBalance.toFixed(3);
+        }
+
+        function animateEarnings() {
+            const earningsDisplay = document.getElementById('earnings');
+            earningsDisplay.classList.add('animate-earnings');
+            setTimeout(() => earningsDisplay.classList.remove('animate-earnings'), 500);
+        }
+
+        function generateUniqueId() {
+            return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+        }
+
+        function saveEarningsToDatabase(userId) {
+            fetch('/save_earnings', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    user_id: userId,
+                    earnings: earnings,
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.message);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>

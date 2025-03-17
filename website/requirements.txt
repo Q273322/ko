@@ -1,0 +1,8 @@
+Flask
+ccxt
+pandas
+numpy
+termcolor
+mysql-connector-python
+
+gunicorn

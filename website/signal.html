@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BINDRS - AI Signal Analyzer</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #fff;
+            background-color: #000;
+            line-height: 1.7;
+            overflow-x: hidden;
+            transition: background-color 0.3s;
+        }
+
+        /* Enhanced Header Styles */
+        header {
+            background: linear-gradient(to right, rgba(34, 34, 34, 0.95), rgba(34, 34, 34, 0.8));
+            color: #FFD700;
+            padding: 25px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 9px rgba(0, 0, 0, 0.4);
+            position: relative;
+            z-index: 1000;
+            text-align: left;
+            transition: background 0.3s ease;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        header:hover {
+            background: linear-gradient(to right, rgba(34, 34, 34, 0.98), rgba(34, 34, 34, 0.85));
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.4em;
+            font-weight: 700;
+            letter-spacing: 0.7px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+            transition: transform 0.2s ease;
+        }
+
+        header h1:hover {
+            transform: scale(1.03);
+        }
+
+        /* Navigation Links (Optional, if you have links in the header) */
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: #FFD700;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1em;
+            transition: color 0.3s ease, transform 0.2s ease;
+            padding: 10px 15px;
+            border-radius: 7px;
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+            transform: translateY(-2px);
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+
+        /* Smaller Menu Button Styles */
+        .menu-btn {
+            background-color: #FFD700;
+            color: #222;
+            border: none;
+            padding: 10px 18px; /* Reduced padding */
+            cursor: pointer;
+            font-weight: 500;
+            border-radius: 6px; /* Slightly smaller */
+            box-shadow: 1px 2px 10px rgba(255, 215, 0, 0.5); /* Adjusted shadow */
+            transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
+            position: relative;
+            z-index: 1001;
+            font-size: 0.95em; /* Reduced font size */
+            letter-spacing: 0.3px;
+            display: flex;
+            align-items: center;
+            gap: 6px; /* Reduced gap */
+        }
+
+        .menu-btn:hover {
+            background-color: #e0b800;
+            box-shadow: 2px 3px 12px rgba(255, 215, 0, 0.6); /* Adjusted shadow */
+        }
+
+        .menu-btn:active {
+            transform: translateY(0.5px); /* Reduced transform */
+            box-shadow: 0.5px 1px 7px rgba(255, 215, 0, 0.5); /* Adjusted shadow */
+        }
+
+        /* Sidebar Navigation (Rest remains the same) */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 100%;
+            background: rgba(34, 34, 34, 0.95);
+            padding-top: 20px;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
+            z-index: 1000;
+            overflow-y: auto;
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .sidebar.active {
+            transform: translateX(0);
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            padding: 15px;
+            text-align: left;
+            transition: background-color 0.3s, transform 0.2s;
+            position: relative;
+        }
+
+        .sidebar ul li a {
+            color: #FFD700;
+            text-decoration: none;
+            font-weight: 500;
+            display: block;
+            padding: 10px 15px;
+            border-radius: 6px;
+            transition: color 0.3s, transform 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar ul li a:hover {
+            background: #FFD700;
+            color: #000;
+            transform: translateX(5px);
+        }
+
+        /* Hero Section (Rest remains the same) */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('signal-background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #FFD700;
+            padding: 80px 20px;
+            text-align: center;
+            font-size: 2.0rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animated Particles (Rest remains the same) */
+        .particle {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background-color: #FFD700;
+            border-radius: 50%;
+            opacity: 0;
+            animation: float 10s linear infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            80% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(var(--random-x));
+                opacity: 0;
+            }
+        }
+
+
+        /* Centered Form (Rest remains the same) */
+        .center-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 30px auto;
+            padding: 25px;
+            background: rgba(34, 34, 34, 0.9);
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.4);
+            border-radius: 12px;
+            width: 90%;
+            max-width: 600px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .center-container:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        label {
+            font-size: 1.1em;
+            font-weight: 500;
+            color: #eee;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"], select, button {
+            width: 90%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 7px;
+            border: none;
+            font-size: 1.05em;
+            background: #444;
+            color: #fff;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+        input[type="text"]:focus, select:focus {
+            outline: none;
+            box-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+        }
+
+        select {
+            appearance: none;
+            background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23FFD700"><path d="M7 10l5 5 5-5z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 20px;
+        }
+
+        button {
+            background-color: #FFD700;
+            color: #222;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.15s ease, box-shadow 0.3s ease;
+            border: none;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        button:hover {
+            background-color: #e0b800;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(255, 215, 0, 0.6);
+        }
+
+        button:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 6px rgba(255, 215, 0, 0.6);
+        }
+
+        /* Table Styles (Rest remains the same) */
+        .table-container {
+            width: 95%;
+            max-width: 900px;
+            margin: 30px auto;
+            background: rgba(34, 34, 34, 0.9);
+            padding: 20px;
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.4);
+            border-radius: 12px;
+            overflow-x: auto;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .table-container:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(0, 0, 0, 0.5);
+        }
+
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            border-spacing: 0;
+            animation: fadeInTable 0.5s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeInTable {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        th, td {
+            padding: 15px;
+            border: 1px solid #555;
+            text-align: center;
+            font-size: 1.0rem;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        th {
+            background-color: #222;
+            color: #FFD700;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: rgba(68, 68, 68, 0.5);
+        }
+
+        /* Footer (Rest remains the same) */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #222;
+            color: #FFD700;
+            margin-top: 40px;
+            font-size: 1em;
+            font-weight: 300;
+        }
+
+         /* Small Menu Button Container */
+        .small-menu-btn-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 15px;
+            right: 15px; /* Position on the right */
+            z-index: 1001;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>BINDRS AI Signals</h1>
+    </header>
+
+    <nav class="sidebar">
+        <ul>
+            <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="trade.html"><i class="fas fa-calculator"></i> Trade Calculator</a></li>
+            <li><a href="signal.html"><i class="fas fa-chart-line"></i> AI Signals</a></li>
+            <li><a href="chart.html"><i class="fas fa-chart-pie"></i> Charts</a></li>
+            <li><a href="calendar.html"><i class="fas fa-calendar"></i> Calendar</a></li>
+            <li><a href="course.html"><i class="fas fa-graduation-cap"></i> Course</a></li>
+            <li><a href="tap&earn.html"><i class="fas fa-gamepad"></i> Play & Earn</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        Analyze Market Trends with AI-Powered Signals
+    </section>
+
+    <div class = "small-menu-btn-container">
+      <button class="menu-btn" onclick="toggleMenu()">
+          <i class="fas fa-bars"></i>
+      </button>
+    </div>
+
+
+
+    <div class="center-container">
+        <label for="pair"><i class="fas fa-exchange-alt"></i> Trading Pair:</label>
+        <input type="text" id="pair" placeholder="e.g., BTC/USD">
+
+        <label for="timeframe"><i class="fas fa-clock"></i> Timeframe:</label>
+        <select id="timeframe">
+            <option value="1m">1 Minute</option>
+            <option value="5m">5 Minutes</option>
+            <option value="15m">15 Minutes</option>
+            <option value="1h">1 Hour</option>
+            <option value="1d">1 Day</option>
+        </select>
+
+        <button onclick="fetchSignals()">
+            <i class="fas fa-search"></i> Analyze Signals
+        </button>
+    </div>
+
+    <div class="table-container">
+        <h2>AI Trading Signals</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Timeframe</th>
+                    <th>Signal</th>
+                    <th>Take Profit</th>
+                    <th>Stop Loss</th>
+                </tr>
+            </thead>
+            <tbody id="signalTableBody"></tbody>
+        </table>
+    </div>
+
+    <footer>
+        © 2024 BINDRS AI. All rights reserved.
+    </footer>
+
+    <script>
+
+        // Function to create and append particles
+        function createParticles() {
+            const hero = document.querySelector('.hero');
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+                particle.style.setProperty('--random-x', `${(Math.random() - 0.5) * 200}px`);
+                hero.appendChild(particle);
+            }
+        }
+
+        function toggleMenu() {
+            document.querySelector(".sidebar").classList.toggle("active");
+        }
+
+        function fetchSignals() {
+            let pair = document.getElementById('pair').value;
+            let timeframe = document.getElementById('timeframe').value;
+            let tableBody = $('#signalTableBody');
+
+            // Show loading message
+            tableBody.empty().append('<tr><td colspan="4">Loading signals... <i class="fas fa-spinner fa-spin"></i></td></tr>');
+
+            $.get(`/analyze?symbol=${pair}&timeframe=${timeframe}`, function(data) {
+                tableBody.empty();
+
+                tableBody.append(`<tr>
+                    <td>${timeframe}</td>
+                    <td>${data.signal || '-'}</td>
+                    <td>${data.take_profit || '-'}</td>
+                    <td>${data.stop_loss || '-'}</td>
+                </tr>`);
+            }).fail(function(error) {
+                tableBody.empty().append('<tr><td colspan="4">Error fetching signals: ' + error.responseJSON.error + '</td></tr>');
+            });
+        }
+
+
+        // Call function to create particles when the page loads
+        window.onload = () => {
+            createParticles();
+        };
+
+    </script>
+
+</body>
+</html>

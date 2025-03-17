@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BINDRS Trade Calculator - Power Your Trades</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        /* Base Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #fff;
+            background-color: #000;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Enhanced Header Styles */
+        header {
+            background: linear-gradient(to right, rgba(34, 34, 34, 0.95), rgba(34, 34, 34, 0.8));
+            color: #FFD700;
+            padding: 25px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 9px rgba(0, 0, 0, 0.4);
+            position: relative;
+            z-index: 1000;
+            text-align: left;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.2em;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Smaller Menu Button Styles */
+        .menu-btn {
+            background-color: #FFD700;
+            color: #222;
+            border: none;
+            padding: 8px 16px;
+            /* Reduced padding */
+            cursor: pointer;
+            font-weight: 500;
+            border-radius: 5px;
+            /* Reduced radius */
+            box-shadow: 1px 2px 8px rgba(255, 215, 0, 0.5);
+            /* Adjusted shadow */
+            transition: background-color 0.25s, transform 0.15s, box-shadow 0.25s;
+            position: relative;
+            z-index: 1001;
+            font-size: 0.9em;
+            /* Reduced font size */
+            letter-spacing: 0.3px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            /* Reduced gap */
+        }
+
+        .menu-btn:hover {
+            background-color: #e0b800;
+            box-shadow: 2px 3px 12px rgba(255, 215, 0, 0.6);
+            /* Adjusted shadow */
+        }
+
+        .menu-btn:active {
+            transform: translateY(0.5px);
+            /* Reduced transform */
+            box-shadow: 1px 2px 6px rgba(255, 215, 0, 0.5);
+            /* Adjusted shadow */
+        }
+
+
+        /* Sidebar Navigation */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 100%;
+            background: rgba(34, 34, 34, 0.95);
+            padding-top: 20px;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
+            z-index: 1000;
+            overflow-y: auto;
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .sidebar.active {
+            transform: translateX(0);
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            padding: 15px;
+            text-align: left;
+            transition: background-color 0.3s, transform 0.2s;
+            position: relative;
+        }
+
+        .sidebar ul li a {
+            color: #FFD700;
+            text-decoration: none;
+            font-weight: 500;
+            display: block;
+            padding: 10px 15px;
+            border-radius: 6px;
+            transition: color 0.3s, transform 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar ul li a:hover {
+            background: #FFD700;
+            color: #000;
+            transform: translateX(5px);
+        }
+
+        /* Container Styles */
+        .container {
+            max-width: 100%;
+            padding: 20px;
+            background: rgba(34, 34, 34, 0.9);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.6);
+        }
+
+        .container h2 {
+            color: #FFD700;
+            margin-bottom: 30px;
+            font-size: 2.2em;
+            text-align: center;
+            font-weight: 600;
+            letter-spacing: 0.6px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        label {
+            font-size: 1.2em;
+            color: #eee;
+            font-weight: 500;
+            letter-spacing: 0.4px;
+        }
+
+        input[type="number"],
+        button {
+            width: 100%;
+            padding: 14px;
+            border-radius: 8px;
+            border: none;
+            font-size: 1.1em;
+            background: #444;
+            color: #fff;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+        }
+
+        button {
+            background-color: #FFD700;
+            color: #222;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.15s ease, box-shadow 0.3s ease;
+            font-weight: bold;
+            letter-spacing: 0.7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        button:hover {
+            background-color: #e0b800;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(255, 215, 0, 0.7);
+        }
+
+        button:active {
+            transform: translateY(1px);
+            box-shadow: 0 3px 7px rgba(255, 215, 0, 0.7);
+        }
+
+        .result {
+            padding: 18px;
+            background: rgba(68, 68, 68, 0.8);
+            border-radius: 9px;
+            margin-top: 20px;
+            font-weight: 500;
+            text-align: center;
+            font-size: 1.2em;
+            letter-spacing: 0.5px;
+        }
+
+        /* Footer Styles */
+        footer {
+            text-align: center;
+            padding: 25px;
+            background-color: #222;
+            color: #FFD700;
+            margin-top: 50px;
+            font-size: 1.1em;
+            font-weight: 300;
+        }
+
+        /* Small Menu Button Container */
+        .small-menu-btn-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            /* Position on the right */
+            z-index: 1001;
+        }
+
+        #notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 128, 0, 0.8);
+            /* Green background */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            z-index: 1000;
+            display: none;
+        }
+
+        /* Styles for the Trade Simulator */
+        .trading-interface {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .chart-container {
+            width: 100%;
+            height: 400px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .chart-container #priceDisplay {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: #FFD700;
+            font-size: 1.2em;
+            font-weight: bold;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .order-book {
+            width: 100%;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+        }
+
+        .order-book h2 {
+            color: #FFD700;
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .pair-display {
+            color: #eee;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .balance-display {
+            color: #00ff00;
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .trade-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .trade-form label {
+            color: #eee;
+            font-size: 1.1em;
+        }
+
+        .trade-form input,
+        .trade-form select {
+            padding: 12px;
+            border-radius: 6px;
+            border: none;
+            background: #444;
+            color: #fff;
+            font-size: 1em;
+        }
+
+        .trade-form button {
+            background-color: #FFD700;
+            color: #222;
+            border: none;
+            padding: 12px;
+            cursor: pointer;
+            font-weight: 500;
+            border-radius: 6px;
+            transition: background-color 0.3s;
+        }
+
+        .trade-form button:hover {
+            background-color: #e0b800;
+        }
+
+        .open-positions {
+            margin-top: 30px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            background-color: rgba(34, 34, 34, 0.8);
+        }
+
+        .open-positions h2 {
+            color: #FFD700;
+            font-size: 1.6em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .open-positions table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .open-positions th,
+        .open-positions td {
+            padding: 10px;
+            border: 1px solid #555;
+            text-align: center;
+        }
+
+        .open-positions th {
+            background-color: #222;
+            color: #FFD700;
+        }
+
+        #timeframe {
+            width: 90%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 7px;
+            border: none;
+            font-size: 1.05em;
+            background: #444;
+            color: #fff;
+            transition: background-color 0.3s, box-shadow 0.3s;
+            text-align: center;
+            appearance: none;
+            background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23FFD700"><path d="M7 10l5 5 5-5z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>BINDRS Trade Calculator</h1>
+    </header>
+
+    <nav class="sidebar">
+        <ul>
+            <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="trade.html"><i class="fas fa-calculator"></i> Trade Calculator</a></li>
+            <li><a href="signal.html"><i class="fas fa-chart-line"></i> AI Signals</a></li>
+            <li><a href="chart.html"><i class="fas fa-chart-pie"></i> Charts</a></li>
+            <li><a href="calendar.html"><i class="fas fa-calendar"></i> Calendar</a></li>
+            <li><a href="course.html"><i class="fas fa-graduation-cap"></i> Course</a></li>
+            <li><a href="tap&earn.html"><i class="fas fa-gamepad"></i> Play & Earn</a></li>
+        </ul>
+    </nav>
+
+    <div class="small-menu-btn-container">
+        <button class="menu-btn" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+
+    <div class="container">
+        <h2><i class="fas fa-coins"></i> Profit/Loss Calculator</h2>
+        <div class="form-group">
+            <label for="entryPrice"><i class="fas fa-arrow-down"></i> Entry Price</label>
+            <input type="number" id="entryPrice" placeholder="Enter price"
+                title="Enter the price at which you entered the trade">
+            <label for="exitPrice"><i class="fas fa-arrow-up"></i> Exit Price</label>
+            <input type="number" id="exitPrice" placeholder="Enter price"
+                title="Enter the price at which you exited the trade">
+            <label for="quantity"><i class="fas fa-hashtag"></i> Quantity</label>
+            <input type="number" id="quantity" placeholder="Enter quantity"
+                title="Enter the amount of asset traded">
+            <button onclick="calculateProfitLoss()"><i class="fas fa-calculator"></i> Calculate</button>
+        </div>
+        <div id="profitLossResult" class="result"></div>
+    </div>
+
+    <div class="container">
+        <h2><i class="fas fa-chart-line"></i> Compounding Calculator</h2>
+        <div class="form-group">
+            <label for="initialCapital"><i class="fas fa-money-bill-wave"></i> Initial Capital</label>
+            <input type="number" id="initialCapital" placeholder="Enter amount"
+                title="Enter the starting amount of capital">
+            <label for="roiPercent"><i class="fas fa-percentage"></i> ROI %</label>
+            <input type="number" id="roiPercent" placeholder="Enter percentage"
+                title="Enter the expected return on investment percentage">
+            <label for="periods"><i class="fas fa-history"></i> Periods</label>
+            <input type="number" id="periods" placeholder="Enter number of periods"
+                title="Enter the number of compounding periods">
+            <button onclick="calculateCompounding()"><i class="fas fa-chart-area"></i> Calculate</button>
+        </div>
+        <div id="compoundingResult" class="result"></div>
+    </div>
+
+    <div class="container">
+        <h2><i class="fas fa-chart-bar"></i> Trade Simulator</h2>
+        <div class="trading-interface" style="display: flex; flex-direction: column; align-items: center;">
+
+        <div class="chart-container" style="width: 100%; height: 400px;">
+
+                <canvas id="candlestickChart" width="800" height="600"></canvas>
+                <div id="priceDisplay">Current Price: $0.00</div>
+            </div>
+
+        <div class="order-book" style="width: 100%;">
+
+                <h2>Order Book</h2>
+                <div class="pair-display">
+                    Pair: <span id="currentPairDisplay">BTC/USD</span>
+                </div>
+                <div class="balance-display">
+                    Balance: $<span id="balance">20.00</span>
+                </div>
+
+                <form class="trade-form" id="tradeForm">
+                    <label for="tradeType">Trade Type:</label>
+                    <select id="tradeType">
+                        <option value="buy">Buy</option>
+                        <option value="sell">Sell</option>
+                    </select>
+
+                    <label for="amount">Amount ($):</label>
+                    <input type="number" id="amount" value="1" min="1">
+
+                    <label for="timeframe">Timeframe:</label>
+                    <select id="timeframe" onchange="updateChartInterval()">
+                        <option value="1">1 Minute</option>
+                        <option value="5">5 Minutes</option>
+                        <option value="15">15 Minutes</option>
+                    </select>
+
+                    <button type="button" onclick="executeTrade()"><i class="fas fa-play"></i> Execute Trade</button>
+                </form>
+
+                <div class="open-positions">
+                    <h2>Open Positions</h2>
+                    <table id="openPositionsTable">
+                        <thead>
+                            <tr>
+                                <th>Pair</th>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Entry Price</th>
+                                <th>Current P/L</th>
+                                <th>Timeframe</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Open positions will be added here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        © 2024 BINDRS Trade. Powering Your Trading Success.
+    </footer>
+    <div id="notification"></div>
+
+    <script>
+        function toggleMenu() {
+            document.querySelector(".sidebar").classList.toggle("active");
+        }
+
+        function calculateProfitLoss() {
+            const entry = parseFloat(document.getElementById('entryPrice').value);
+            const exit = parseFloat(document.getElementById('exitPrice').value);
+            const quantity = parseFloat(document.getElementById('quantity').value);
+
+            if (isNaN(entry) || isNaN(exit) || isNaN(quantity)) {
+                document.getElementById('profitLossResult').innerText = 'Please enter valid numbers';
+                return;
+            }
+
+            const profitLoss = (exit - entry) * quantity;
+            const resultText = profitLoss >= 0 ?
+                `Profit: $${profitLoss.toFixed(2)}` :
+                `Loss: $${Math.abs(profitLoss).toFixed(2)}`;
+
+            document.getElementById('profitLossResult').innerText = resultText;
+
+            // Animation for result
+            $('#profitLossResult').hide().text(resultText).fadeIn('slow');
+        }
+
+        function calculateCompounding() {
+            const capital = parseFloat(document.getElementById('initialCapital').value);
+            const roi = parseFloat(document.getElementById('roiPercent').value);
+            const periods = parseFloat(document.getElementById('periods').value);
+
+            if (isNaN(capital) || isNaN(roi) || isNaN(periods)) {
+                document.getElementById('compoundingResult').innerText = 'Please enter valid numbers';
+                return;
+            }
+
+            const finalAmount = capital * Math.pow(1 + (roi / 100), periods);
+            document.getElementById('compoundingResult').innerText =
+                `Final Amount: $${finalAmount.toFixed(2)}`;
+
+            // Animation for result
+            $('#compoundingResult').hide().text(`Final Amount: $${finalAmount.toFixed(2)}`).fadeIn('slow');
+        }
+
+        // --- Trading Variables ---
+        let balance = 20.00;
+        let currentPrice = 0;
+        let tradeOpen = false;
+        const tradingPair = "BTC/USD";
+        const openPositions = []; // Array to store open trades
+        let timeframe = 1; // In minutes; changed to global scope
+
+        const tradeForm = document.getElementById('tradeForm');
+        const balanceDisplay = document.getElementById('balance');
+        const pairDisplay = document.getElementById('currentPairDisplay');
+        const openPositionsTableBody = document.getElementById('openPositionsTable').getElementsByTagName('tbody')[0]; // Get table body
+        const notification = document.getElementById('notification');
+
+        // Canvas elements
+        const canvas = document.getElementById('candlestickChart');
+        const ctx = canvas.getContext('2d');
+        const candleWidth = 10;
+        let chartData = []; // Stores OHLC data
+        const visibleCandles = Math.floor(canvas.width / (candleWidth + 2)); // Number of candles to display
+
+        // Chart dimensions
+        const chartHeight = canvas.height;
+        const chartWidth = canvas.width;
+        const priceDisplay = document.getElementById('priceDisplay'); // Reference
+
+        // --- Chart Scaling ---
+        let maxPrice = 100;
+        let minPrice = 50;
+
+        //Set Chart initial Value and update
+        let candleInterval; //Interval is tracked so that the graph loops.
+
+        // Initial price for simulation.
+        let simulatedPrice = 29000;
+        let volatility = 0.01; // Volatility factor (adjust as needed)
+
+
+        // --- Helper Functions ---
+        function showNotification(message, duration = 3000) {
+            notification.textContent = message;
+            $(notification).fadeIn('slow').delay(duration).fadeOut('slow');
+        }
+
+        // Function to simulate fetching a real-time price
+        function getSimulatedPrice() {
+            //Introduce random volatility
+            let change = simulatedPrice * (Math.random() - 0.5) * volatility;
+
+            //Apply the change to the current price
+            simulatedPrice += change;
+
+            return simulatedPrice;
+        }
+
+        // --- Functions ---
+        function updateBalance() {
+            balanceDisplay.innerText = balance.toFixed(2);
+        }
+
+        function updatePairDisplay() {
+            pairDisplay.innerText = tradingPair;
+        }
+
+        function executeTrade() {
+            const tradeType = document.getElementById('tradeType').value;
+            const amount = parseFloat(document.getElementById('amount').value);
+            timeframe = parseInt(document.getElementById('timeframe').value);
+
+            if (isNaN(amount) || amount <= 0) {
+                alert('Please enter a valid amount.');
+                return;
+            }
+
+            if (amount > balance && tradeType === 'buy') {
+                alert('Insufficient funds!');
+                return;
+            }
+
+            if (tradeType === 'buy' && !tradeOpen) {
+                // Buying logic
+                const newPosition = {
+                    pair: tradingPair,
+                    type: tradeType,
+                    amount: amount,
+                    entryPrice: currentPrice,
+                    profitLoss: 0,
+                    timeframe: timeframe // store timeframe, since it used more than once
+                };
+                openPositions.push(newPosition);
+
+                balance -= amount;
+                balance = parseFloat(balance.toFixed(2));
+                tradeOpen = true;
+
+                updatePositionsDisplay();
+
+                showNotification(`Bought at $${newPosition.entryPrice.toFixed(2)}`, 2000);
+            } else if (tradeType === 'sell' && openPositions.length > 0) {
+                // Selling
+                let totalProfitLoss = 0;
+
+                while (openPositions.length > 0) {
+                    const position = openPositions.shift();
+
+                    let profitLoss = ((currentPrice - position.entryPrice) * position.amount).toFixed(2);
+                    profitLoss = parseFloat(profitLoss.toFixed(2));
+
+                    totalProfitLoss += profitLoss; // Adjust
+                }
+                balance += totalProfitLoss;
+                balance = parseFloat(balance.toFixed(2));
+
+                showNotification(`Closed all positions. Total P/L: $${totalProfitLoss.toFixed(2)}`, 2000);
+
+                updatePositionsDisplay();
+
+            } else {
+                if (tradeType === 'sell' && openPositions.length == 0) {
+                    alert("No trade to execute")
+                    return;
+                }
+            }
+
+            updateBalance();
+            tradeForm.reset();
+        }
+
+        function updatePositionsDisplay() {
+            openPositionsTableBody.innerHTML = ''; // Clear the table body
+            openPositions.forEach(position => {
+                let profitLoss = ((currentPrice - position.entryPrice) * position.amount).toFixed(2);
+                const row = openPositionsTableBody.insertRow();
+
+                row.insertCell().textContent = position.pair;
+                row.insertCell().textContent = position.type;
+                row.insertCell().textContent = position.amount;
+                row.insertCell().textContent = position.entryPrice;
+                row.insertCell().textContent = profitLoss;
+                row.insertCell().textContent = position.timeframe; // Display Timeframe
+            });
+        }
+
+        // Improved Candle Stick Data generation
+        function generateCandleStickData(lastClose) {
+            const open = lastClose || getSimulatedPrice();
+            const high = open + Math.random() * 20; // Increased range
+            const low = open - Math.random() * 20; // Increased range
+            const close = getSimulatedPrice(); //Use the function
+
+            //Ensure High and Low are outside of price
+            let highValue = Math.max(open, close, high);
+            let lowValue = Math.min(open, close, low);
+
+            return {
+                open: parseFloat(open.toFixed(2)),
+                high: parseFloat(highValue.toFixed(2)),
+                low: parseFloat(lowValue.toFixed(2)),
+                close: parseFloat(close.toFixed(2))
+            };
+        }
+
+        function drawCandlestick(x, candle) {
+            const priceRange = maxPrice - minPrice;
+            const scale = chartHeight / priceRange;
+
+            const top = chartHeight - (candle.high - minPrice) * scale;
+            const bottom = chartHeight - (candle.low - minPrice) * scale;
+            const openPos = chartHeight - (candle.open - minPrice) * scale;
+            const closePos = chartHeight - (candle.close - minPrice) * scale;
+
+            ctx.beginPath();
+            ctx.strokeStyle = '#ddd'; // Wick color
+            ctx.moveTo(x + candleWidth / 2, top);
+            ctx.lineTo(x + candleWidth / 2, bottom);
+            ctx.stroke();
+
+            ctx.beginPath();
+            if (candle.close >= candle.open) {
+                ctx.fillStyle = '#00ff00'; // Green for bullish
+            } else {
+                ctx.fillStyle = 'red'; // Red for bearish
+            }
+            ctx.rect(x, Math.min(openPos, closePos), candleWidth, Math.abs(openPos - closePos));
+            ctx.fill();
+
+        }
+
+        function drawChart() {
+            ctx.clearRect(0, 0, chartWidth, chartHeight);
+
+            //Update chart scale
+            maxPrice = Math.max(...chartData.map(candle => candle.high));
+            minPrice = Math.min(...chartData.map(candle => candle.low));
+
+            const visibleCandles = Math.floor(chartWidth / (candleWidth + 2));
+
+            //Draw candel stick
+            for (let i = Math.max(0, chartData.length - visibleCandles); i < chartData.length; i++) {
+                const x = (i - (chartData.length - (chartData.length < visibleCandles ? chartData.length : visibleCandles))) * (candleWidth + 2);
+                drawCandlestick(x, chartData[i]);
+            }
+
+        }
+
+        function updateCurrentPrice() {
+            if (chartData.length > 0) {
+                currentPrice = chartData[chartData.length - 1].close;
+                currentPrice = parseFloat(currentPrice.toFixed(2));
+                priceDisplay.innerText = `Current Price: $${currentPrice}`; // Update display
+                updatePositionsDisplay(); //Updates position
+            }
+        }
+
+        function initChartData() {
+            let lastClose = getSimulatedPrice();
+
+            while (chartData.length < visibleCandles) {
+                const candle = generateCandleStickData(lastClose);
+                chartData.push(candle);
+                lastClose = candle.close;
+
+                maxPrice = Math.max(maxPrice, candle.high);
+                minPrice = Math.min(minPrice, candle.low);
+            }
+
+            drawChart();
+        }
+
+        function addCandlestick() {
+            const lastCandle = chartData[chartData.length - 1];
+
+            const candle = generateCandleStickData(lastCandle.close);
+
+            chartData.push(candle);
+
+            chartData.shift();
+
+            updateCurrentPrice();
+
+            drawChart();
+        }
+
+        //Starts The Chart
+        function startChart() {
+            initChartData();
+            candleInterval = setInterval(addCandlestick, timeframe * 1000 * 60); // Set interval with initial timeframe
+        }
+        //Updates chart time frame
+        function updateChartInterval() {
+            clearInterval(candleInterval);
+            timeframe = parseInt(document.getElementById('timeframe').value);
+
+            candleInterval = setInterval(addCandlestick, timeframe * 1000 * 60);
+        }
+        //Inital Call
+        updatePairDisplay();
+
+        startChart();
+
+        // Basic alert handling
+        window.onerror = function (message, source, lineno, colno, error) {
+            alert("An error occurred: " + message);
+            return true; // Prevents browser's default error output
+        };
+
+        updatePositionsDisplay();
+    </script>
+
+</body>
+
+</html>

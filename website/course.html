@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BINDRS - Master Trading: Unlock Your Potential</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000;
+            margin: 0;
+            padding: 0;
+            color: #ddd;
+            overflow-x: hidden;
+        }
+
+        /* Ticker Styles */
+        .ticker {
+            background: #333;
+            color: #FFD700;
+            padding: 12px;
+            text-align: center;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .ticker-content {
+            display: inline-block;
+            white-space: nowrap;
+            animation: ticker 20s linear infinite; /* Adjusted animation speed */
+        }
+
+        @keyframes ticker {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* Enhanced Toolbar Styles */
+        .toolbar {
+            background: rgba(34, 34, 34, 0.95);
+            padding: 16px;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            top: -100px; /* Initially hidden */
+            left: 0;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            transition: top 0.3s ease-in-out; /* Slide-down animation */
+        }
+
+        .toolbar.show {
+            top: 0; /* Makes it visible */
+        }
+
+
+        .toolbar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .toolbar ul li {
+            margin: 0 20px;
+        }
+
+        .toolbar ul li a {
+            color: #FFD700;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s, transform 0.2s, box-shadow 0.3s;
+            padding: 12px 18px;
+            border-radius: 8px;
+            font-size: 1.05em;
+        }
+
+        .toolbar ul li a:hover {
+            color: #fff;
+            transform: translateY(-2px);
+            background: rgba(255, 215, 0, 0.1);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Improved Container Styles */
+        .container {
+            width: 85%;
+            max-width: 1000px;
+            margin: 100px auto; /* Increased top margin */
+            padding: 40px;
+            background: rgba(34, 34, 34, 0.9);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            border-radius: 12px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 7px 18px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Professional Header */
+        h1 {
+            text-align: center;
+            color: #FFD700;
+            font-size: 3.2em;
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-shadow: 2px 3px 6px rgba(0, 0, 0, 0.6);
+            letter-spacing: 0.8px;
+        }
+
+        p {
+            line-height: 1.7;
+            font-size: 1.15em;
+            color: #eee;
+        }
+
+        /* Benefits Section */
+        .benefits, .content-list {
+            margin: 30px 0;
+        }
+
+        .benefits h2, .content-list h2 {
+            color: #FFD700;
+            border-bottom: 3px solid #FFD700;
+            padding-bottom: 12px;
+            font-size: 2.0em;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .benefits ul, .content-list ul {
+            list-style-type: disc;
+            padding-left: 30px;
+        }
+
+        .benefits ul li, .content-list ul li {
+            margin-bottom: 12px;
+            font-size: 1.1em;
+            color: #eee;
+        }
+
+        /* Call to Action Button */
+        .enroll-button {
+            display: block;
+            width: 250px;
+            margin: 30px auto;
+            padding: 14px;
+            text-align: center;
+            background-color: #FFD700;
+            color: #222;
+            border: none;
+            border-radius: 7px;
+            text-decoration: none;
+            font-size: 1.2em;
+            font-weight: 600;
+            transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        .enroll-button:hover {
+            background-color: #e0b800;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Course Link */
+        .link {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .link a {
+            color: #FFD700;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .link a:hover {
+            color: #fff;
+        }
+
+        /* Footer Styles */
+        .footer {
+            text-align: center;
+            padding: 25px;
+            background-color: #222;
+            color: #FFD700;
+            margin-top: 50px;
+            font-size: 1.0em;
+            font-weight: 300;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+        }
+        /* Smaller Menu Button Styles */
+        .menu-btn {
+            background-color: #FFD700;
+            color: #222;
+            border: none;
+            padding: 8px 16px; /* Reduced padding */
+            cursor: pointer;
+            font-weight: 500;
+            border-radius: 5px; /* Reduced radius */
+            box-shadow: 1px 2px 8px rgba(255, 215, 0, 0.5); /* Adjusted shadow */
+            transition: background-color 0.25s, transform 0.15s, box-shadow 0.25s;
+            position: relative;
+            z-index: 1001;
+            font-size: 0.9em; /* Reduced font size */
+            letter-spacing: 0.3px;
+            display: flex;
+            align-items: center;
+            gap: 6px; /* Reduced gap */
+        }
+
+        .menu-btn:hover {
+            background-color: #e0b800;
+            box-shadow: 2px 3px 12px rgba(255, 215, 0, 0.6); /* Adjusted shadow */
+        }
+
+        .menu-btn:active {
+            transform: translateY(0.5px); /* Reduced transform */
+            box-shadow: 1px 2px 6px rgba(255, 215, 0, 0.5); /* Adjusted shadow */
+        }
+
+         /* Small Menu Button Container */
+        .small-menu-btn-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 15px;
+            right: 15px; /* Position on the right */
+            z-index: 1001;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Ticker -->
+    <div class="ticker">
+        <div class="ticker-content">🎉 Limited Time Offer: Enroll now and get exclusive access to our bonus module on advanced risk management techniques! 🎉</div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar" id="toolbar">
+        <ul>
+            <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="trade.html"><i class="fas fa-calculator"></i> Trade</a></li>
+            <li><a href="signal.html"><i class="fas fa-signal"></i> Signals</a></li>
+            <li><a href="chart.html"><i class="fas fa-chart-line"></i> Charts</a></li>
+            <li><a href="calender.html"><i class="fas fa-calendar"></i> Calendar</a></li>
+            <li><a href="course.html"><i class="fas fa-book"></i> Course</a></li>
+            <li><a href="tap&earn.html"><i class="fas fa-gamepad"></i> Tap&Earn</a></li>
+        </ul>
+    </div>
+      <div class = "small-menu-btn-container">
+          <button class="menu-btn" onclick="toggleMenu()">
+              <i class="fas fa-bars"></i>
+          </button>
+      </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h1>Master Trading: Unlock Your Potential</h1>
+        <p>Transform your trading skills with our comprehensive course, designed for both beginners and experienced traders looking to elevate their performance. Gain the knowledge, strategies, and confidence to navigate the financial markets successfully.</p>
+
+        <div class="benefits">
+            <h2><i class="fas fa-trophy"></i> Key Benefits</h2>
+            <ul>
+                <li><i class="fas fa-check-circle"></i> Gain in-depth knowledge of technical analysis, fundamental analysis, and risk management.</li>
+                <li><i class="fas fa-video"></i> Access to over 50 hours of high-quality video lectures and interactive exercises.</li>
+                <li><i class="fas fa-user-tie"></i> Learn from industry-leading experts with decades of experience in the financial markets.</li>
+                <li><i class="fas fa-handshake"></i> Participate in live Q&A sessions and connect with a global community of traders.</li>
+                <li><i class="#"></i> Get access for ower of the website.</li>
+            </ul>
+        </div>
+
+        <div class="content-list">
+            <h2><i class="fas fa-list-alt"></i> Course Content</h2>
+            <ul>
+                <li><i class="fas fa-arrow-right"></i> Module 1: Introduction to Financial Markets</li>
+                <li><i class="fas fa-arrow-right"></i> Module 2: Mastering Technical Analysis</li>
+                <li><i class="fas fa-arrow-right"></i> Module 3: Understanding Fundamental Analysis</li>
+                <li><i class="fas fa-arrow-right"></i> Module 4: Advanced Trading Strategies</li>
+                <li><i class="fas fa-arrow-right"></i> Module 5: Risk Management and Portfolio Optimization</li>
+                <li><i class="fas fa-arrow-right"></i> Module 6: Trading Psychology and Discipline</li>
+            </ul>
+        </div>
+
+        <p style="color: #00ff00; font-size: 1.3em; font-weight: 600; text-align: center;">Limited Time Offer: Get 20% off when you enroll today!</p>
+
+        <a href="https://drive.google.com/drive/folders/11o3UCvxMA1k63PMdTB8Rq_R4gjI_RKxh?usp=drive_link" class="enroll-button">
+             <i class="fas fa-graduation-cap"></i> Enroll Now
+        </a>
+    </div>
+
+    <div class="footer">
+        © 2024 BINDRS. Elevating Traders Worldwide.
+    </div>
+
+    <script>
+        function toggleMenu() {
+            var toolbar = document.getElementById("toolbar");
+            toolbar.classList.toggle('show');
+        }
+
+    </script>
+</body>
+</html>

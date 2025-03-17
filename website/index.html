@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIN IDREES TR - Empowering Your Trading Journey</title>
+    <link rel="stylesheet" href="style.css">  <!-- Link to your external stylesheet -->
+    <script src="script.js" defer></script>  <!-- Link to your external script file -->
+    <script src="auth.js" defer></script> <!-- Link to your authentication script -->
+    <script src="emailVerification.js" defer></script> <!-- Link to your email verification script -->
+
+    <!-- Favicon (optional) -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), url('background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Overlay for background image */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: -1;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: rgba(34, 34, 34, 0.8);
+            color: #FFD700;
+            padding: 20px;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.2em; /* Slightly adjusted font size */
+            font-weight: 600; /*  Semi-bold font */
+            letter-spacing: 0.5px;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 15px; /*  Increased gap */
+        }
+
+        /* Button Styles */
+        button {
+            padding: 12px 24px;
+            font-size: 1em; /* Slightly reduced font size */
+            background-color: #FFD700;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s; /* Added transform for a subtle animation */
+            font-weight: 500; /*  Semi-bold font */
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.3px; /* Added letter spacing */
+        }
+
+        button:hover {
+            background-color: #e0b800;
+            transform: translateY(-2px); /*  Subtle hover animation */
+        }
+
+        /* Content Styles */
+        .content {
+            padding: 60px 20px;
+            max-width: 900px;
+            margin: auto;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1, h2 {
+            color: #FFD700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-weight: 600; /*  Semi-bold font */
+        }
+
+        h1 {
+            font-size: 2.8em; /* Adjusted main heading size */
+        }
+
+        p {
+            font-size: 1.1em; /* Adjusted paragraph size */
+            line-height: 1.7;
+            margin-bottom: 30px;
+            color: #eee;
+            font-weight: 300; /*  Lighter font weight for better readability */
+            text-align: justify; /*  Justify text for a cleaner look */
+        }
+
+        /* Authentication Form Styles */
+        .auth-form {
+            background: rgba(34, 34, 34, 0.9);
+            padding: 30px;
+            border-radius: 10px;
+            display: none;
+            max-width: 450px; /*  Increased form width */
+            margin: 20px auto;
+            text-align: left;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .auth-form h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 1.8em; /*  Adjusted heading size */
+        }
+
+        .auth-form label {
+            display: block;
+            margin-bottom: 5px;
+            color: #ddd; /*  Slightly lighter label color */
+            font-weight: 400; /*  Regular font weight */
+        }
+
+        .auth-form input {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0 20px 0; /* Adjusted margin */
+            border: none;
+            border-radius: 5px;
+            background-color: #444;
+            color: #fff;
+            font-size: 1em;
+        }
+
+        .auth-form input:focus {
+            outline: none;
+            box-shadow: 0 0 5px #FFD700;
+        }
+
+        .auth-form button {
+            width: 100%;
+            padding: 12px;
+            background: #FFD700;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s; /* Added transform for hover effect */
+            font-size: 1.1em;
+        }
+
+        .auth-form button:hover {
+            background-color: #e0b800;
+            transform: translateY(-2px); /*  Subtle hover animation */
+        }
+
+        .auth-links {
+            text-decoration: underline;
+            cursor: pointer;
+            color: #FFD700;
+            display: block;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .auth-links:hover {
+            color: #fff;
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: rgba(34, 34, 34, 0.8);
+            color: #FFD700;
+            text-align: center;
+            padding: 15px;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+            font-size: 0.9em; /* Reduced font size for footer */
+            font-weight: 300; /*  Lighter font weight */
+            letter-spacing: 0.5px;
+        }
+
+        /* Smaller screens adjustments */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            header h1 {
+                margin-bottom: 10px;
+                text-align: center;
+            }
+
+            .header-buttons {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .auth-form {
+                max-width: 90%;
+            }
+
+            .content {
+                padding: 30px 15px;
+            }
+
+            h1 {
+                font-size: 2.5em;
+            }
+
+            p {
+                font-size: 1em;
+            }
+
+            button {
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <h1>BIN IDREES TR</h1>
+        <div class="header-buttons">
+            <button onclick="showLogin()">Login</button>
+            <button onclick="showSignup()">Sign Up</button>
+        </div>
+    </header>
+
+
+    <!-- Main Content Section -->
+    <div class="content">
+        <h1 style="margin-bottom: 20px; color: #FFD700;">Welcome to BIN IDREES TR</h1>
+        <p style="margin-bottom: 30px;">
+            Empowering traders with cutting-edge tools and real-time insights to navigate the complexities of the financial markets.  Our platform is designed to provide a seamless and secure trading experience.
+        </p>
+
+        <p>Ready to begin your trading journey? Choose an option below:</p>
+        <div>
+            <button onclick="showLogin()">Login to Your Account</button>
+            <button onclick="showSignup()">Create a New Account</button>
+        </div>
+
+    </div>
+
+
+    <!-- Login Form -->
+    <div id="loginForm" class="auth-form">
+        <h2 style="color: #FFD700; text-align: center;">Login</h2>
+        <label for="loginEmail">Email</label>
+        <input type="email" id="loginEmail" placeholder="Email" required>
+        <label for="loginPassword">Password</label>
+        <input type="password" id="loginPassword" placeholder="Password" required>
+        <button onclick="submitLogin()">Login</button>
+        <p class="auth-links" onclick="showSignup()">Don't have an account? Sign up</p>
+    </div>
+
+    <!-- Signup Form -->
+    <div id="signupForm" class="auth-form">
+        <h2 style="color: #FFD700; text-align: center;">Sign Up</h2>
+        <label for="signupEmail">Email</label>
+        <input type="email" id="signupEmail" placeholder="Email" required>
+        <label for="signupPassword">Password</label>
+        <input type="password" id="signupPassword" placeholder="Password" required>
+        <button onclick="submitSignup()">Sign Up</button>
+        <p class="auth-links" onclick="showLogin()">Already have an account? Login</p>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        © 2024 BIN IDREES TR. All rights reserved.
+    </footer>
+
+
+    <script>
+        function showLogin() {
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('signupForm').style.display = 'none';
+        }
+        function showSignup() {
+            document.getElementById('signupForm').style.display = 'block';
+            document.getElementById('loginForm').style.display = 'none';
+        }
+        function submitLogin() {
+            // Replace with actual authentication logic
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            // Dummy validation - replace with server-side authentication
+            if (email && password) {
+                window.location.href = 'home.html'; // Redirect to home page on successful login
+            } else {
+                alert('Please enter your email and password.');
+            }
+        }
+        function submitSignup() {
+            // Replace with actual signup logic
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+
+            // Dummy validation - replace with server-side authentication
+            if (email && password) {
+                window.location.href = 'home.html'; // Redirect to home page on successful signup
+            } else {
+                alert('Please enter your email and password.');
+            }
+        }
+    </script>
+</body>
+</html>

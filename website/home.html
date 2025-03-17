@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BINDRS - Your Trading Ecosystem</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), url('background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            text-align: center;
+            overflow-x: hidden;
+            line-height: 1.7;
+            font-weight: 400;
+            position: relative;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: #222;
+            color: #fff;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+            position: relative;
+            z-index: 1000;
+            animation: slideDownHeader 0.6s ease-out forwards;
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        @keyframes slideDownHeader {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.8em;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            margin-left: 15px;
+            color: #fff;
+        }
+
+        header img {
+            height: 50px;
+            margin-right: 15px;
+            border-radius: 4px;
+            transition: transform 0.2s ease-in-out;
+            cursor: pointer;
+        }
+
+        header img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Horizontal Menu Styles */
+        .horizontal-menu {
+            display: flex;
+            justify-content: center;
+            background-color: rgba(40, 40, 40, 0.8);
+            padding: 10px 15px;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            margin-top: 15px;
+            animation: slideDownMenu 0.5s ease-out forwards;
+            opacity: 0;
+            transform: translateY(-15px);
+        }
+
+        @keyframes slideDownMenu {
+            from {
+                opacity: 0;
+                transform: translateY(-15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .horizontal-menu ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .horizontal-menu li {
+            margin: 0 12px;
+        }
+
+        .horizontal-menu a {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 0.95em;
+            font-weight: 400;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background-color 0.15s, color 0.15s, transform 0.1s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .horizontal-menu a:hover {
+            background-color: rgba(255, 255, 255, 0.08);
+            color: #eee;
+            transform: translateY(-1px);
+        }
+
+        /* Active state for menu items */
+        .horizontal-menu a.active {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: #fff;
+            font-weight: 500;
+        }
+
+        /* Content Styles */
+        .content {
+            padding: 100px 30px;
+            max-width: 1200px;
+            margin: auto;
+            text-align: left;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeIn 0.8s forwards ease-out 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .content h1 {
+            color: #FFD700;
+            font-size: 3.4em;
+            font-weight: 700;
+            margin-bottom: 25px;
+            text-shadow: 2px 3px 6px rgba(0, 0, 0, 0.6);
+            letter-spacing: 0.8px;
+            animation: pulse 5s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.03); }
+        }
+
+        .content p {
+            font-size: 1.25em;
+            line-height: 1.8;
+            color: #eee;
+            margin-bottom: 35px;
+            font-weight: 300;
+        }
+
+        /* Feature Section */
+        .feature-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+            animation: fadeInUp 1s ease-out 0.5s forwards;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .feature {
+            background-color: rgba(34, 34, 34, 0.7);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .feature i {
+            font-size: 3em;
+            color: #FFD700;
+            margin-bottom: 15px;
+        }
+
+        .feature h3 {
+            color: #FFD700;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .feature p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            color: #eee;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            margin-top: 60px;
+            padding: 40px;
+            background: rgba(34, 34, 34, 0.8);
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            animation: slideInContact 1s ease-out 0.7s forwards;
+            opacity: 0;
+            transform: translateX(-50px);
+            text-align: center;
+        }
+
+        @keyframes slideInContact {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .contact-section h2 {
+            color: #FFD700;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .contact-section p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            color: #eee;
+            margin-bottom: 25px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: rgba(34, 34, 34, 0.9);
+            color: #FFD700;
+            text-align: center;
+            padding: 20px;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1000;
+        }
+
+        /* Hamburger Menu Styles */
+        .hamburger {
+            display: none;
+            font-size: 1.5em;
+            color: #fff;
+            cursor: pointer;
+            padding: 5px;
+            transition: color 0.2s;
+        }
+
+        .hamburger:hover {
+            color: #ddd;
+        }
+
+        /* Media Query for Smaller Screens */
+        @media (max-width: 768px) {
+            .horizontal-menu {
+                display: none;
+            }
+
+            .horizontal-menu.menu-open {
+                display: block;
+                width: 100%;
+                text-align: center;
+            }
+
+            .horizontal-menu ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .horizontal-menu li {
+                margin: 10px 0;
+            }
+
+            .hamburger {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="logo.png" alt="BINDRS Logo" id="logo">
+        <h1>BINDRS</h1>
+        <div class="hamburger">
+            <i class="fas fa-bars"></i>
+        </div>
+    </header>
+
+    <nav class="horizontal-menu" id="menu">
+        <ul>
+            <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="trade.html"><i class="fas fa-calculator"></i> Trade Calculator</a></li>
+            <li><a href="signal.html"><i class="fas fa-chart-line"></i> AI Signals</a></li>
+            <li><a href="chart.html"><i class="fas fa-chart-pie"></i> Charts</a></li>
+            <li><a href="calendar.html"><i class="fas fa-calendar"></i> Calendar</a></li>
+            <li><a href="course.html"><i class="fas fa-graduation-cap"></i> Course</a></li>
+            <li><a href="tap&earn.html"><i class="fas fa-gamepad"></i> Play & Earn</a></li>
+        </ul>
+    </nav>
+
+    <div class="content">
+        <center><h1>Welcome to the Future of Trading with</h1></center>
+        <center><h1>BINDRS</h1></center>
+        <p>BINDRS is your all-in-one platform designed to empower traders of all levels. Access cutting-edge tools, expert insights, and a supportive community to navigate the complexities of the financial markets with confidence and precision. Whether you are new to the world of trading, or and experienced trader looking to further empower your skills, this is the perfect place. </p>
+
+        <section class="feature-section">
+            <div class="feature">
+                <i class="fas fa-chart-line"></i>
+                <h3>AI-Powered Signals</h3>
+                <p>Harness the power of artificial intelligence to identify high-probability trading opportunities. Our AI-driven signals provide real-time insights to help you make informed decisions.</p>
+            </div>
+
+            <div class="feature">
+                <i class="fas fa-calculator"></i>
+                <h3>Advanced Trading Tools</h3>
+                <p>Utilize our comprehensive suite of trading tools, including a profit/loss calculator, compounding calculator, and risk management tools, to optimize your trading strategy.</p>
+            </div>
+
+            <div class="feature">
+                <i class="fas fa-graduation-cap"></i>
+                <h3>Educational Resources</h3>
+                <p>Expand your trading knowledge with our extensive library of educational resources. From beginner guides to advanced trading strategies, we provide the knowledge you need to succeed.</p>
+            </div>
+        </section>
+
+        <section class="contact-section">
+            <h2>Contact Us</h2>
+            <p>Have questions or need assistance? Reach out to our support team. We're here to help you every step of the way.</p>
+
+            <p><i class="fas fa-envelope"></i> Email: support@bindrs.com</p>
+            <p><i class="fas fa-phone"></i> Phone: +1 (555) 123-4567</p>
+
+        </section>
+
+    </div>
+
+    <footer>
+        © 2024 BINDRS. Empowering Your Trading Journey.
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const logo = document.getElementById('logo');
+            const menu = document.getElementById('menu');
+            const hamburger = document.querySelector('.hamburger');
+
+            logo.addEventListener('click', function() {
+                menu.classList.toggle('menu-open');
+            });
+
+            hamburger.addEventListener('click', function() {
+                menu.classList.toggle('menu-open');
+            });
+        });
+    </script>
+
+</body>
+</html>
